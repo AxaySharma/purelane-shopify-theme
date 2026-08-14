@@ -1,0 +1,258 @@
+<section class="sec" id="bundles" data-scene="3">
+  <div class="wrap">
+    <div class="glass sec-pad rv" style="margin-bottom:16px">
+      <div class="panel-head" style="margin-bottom:0">
+        <span class="kicker">{{ section.settings.kicker }}</span>
+        <h2 class="d2" style="margin-top:12px">{{ section.settings.heading }}</h2>
+        <p class="lede" style="margin:0 auto">{{ section.settings.lede }}</p>
+      </div>
+    </div>
+    
+    <div class="tiers">
+      {%- for block in section.blocks -%}
+        {%- if block.type == 'bundle_tier' -%}
+          <article class="glass tier{% if block.settings.is_featured %} best{% endif %} rv" {{ block.shopify_attributes }}>
+            {%- if block.settings.tag != blank -%}
+              <span class="tag">{{ block.settings.tag }}</span>
+            {%- endif -%}
+            
+            <div class="tierpix{% if block.settings.tier_preset_image == 'whole_home_5' %} five{% endif %}" aria-hidden="true">
+              {%- if block.settings.tier_preset_image == 'starter_2' -%}
+                <span class="pimg p-combo2" role="img" aria-label="Purelane tap cleaner and kitchen cleaner combo pack"></span>
+              {%- elsif block.settings.tier_preset_image == 'popular_3' -%}
+                <span class="pimg p-kitchen" role="img" aria-label="Purelane foaming kitchen cleaner"></span>
+                <span class="pimg p-tap" role="img" aria-label="Purelane tap cleaner and limescale remover"></span>
+                <span class="pimg p-dish" role="img" aria-label="Purelane organic dishwash liquid gel"></span>
+              {%- else -%}
+                <span class="pimg p-kitchen" role="img" aria-label="Purelane foaming kitchen cleaner"></span>
+                <span class="pimg p-tap" role="img" aria-label="Purelane tap cleaner and limescale remover"></span>
+                <span class="pimg p-floor" role="img" aria-label="Purelane natural herbal floor cleaner"></span>
+                <span class="pimg p-toilet" role="img" aria-label="Purelane non-toxic toilet cleaner"></span>
+                <span class="pimg p-laundry" role="img" aria-label="Purelane non-toxic laundry detergent"></span>
+              {%- endif -%}
+            </div>
+            
+            <div class="qty">
+              {{ block.settings.quantity_number }}
+              <small>{{ block.settings.quantity_label }}</small>
+            </div>
+            
+            <div class="price">
+              {{ block.settings.price }}
+              {%- if block.settings.compare_at_price != blank -%}
+                <s>{{ block.settings.compare_at_price }}</s>
+              {%- endif -%}
+            </div>
+            
+            {%- if block.settings.unit_price_note != blank -%}
+              <p class="body-s" style="font-size:12px">{{ block.settings.unit_price_note }}</p>
+            {%- endif -%}
+            
+            <ul>
+              {%- if block.settings.feature_1 != blank -%}
+                <li>
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m5 13 4 4L19 7"/></svg>
+                  {{ block.settings.feature_1 }}
+                </li>
+              {%- endif -%}
+              {%- if block.settings.feature_2 != blank -%}
+                <li>
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m5 13 4 4L19 7"/></svg>
+                  {{ block.settings.feature_2 }}
+                </li>
+              {%- endif -%}
+              {%- if block.settings.feature_3 != blank -%}
+                <li>
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m5 13 4 4L19 7"/></svg>
+                  {{ block.settings.feature_3 }}
+                </li>
+              {%- endif -%}
+            </ul>
+            
+            <a class="btn {% if block.settings.is_featured %}btn-primary{% else %}btn-ghost{% endif %}" href="{{ block.settings.button_link | default: '#shop' }}">
+              {{ block.settings.button_text }}
+              {%- if block.settings.is_featured -%}
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h13m-5-6 6 6-6 6"/></svg>
+              {%- endif -%}
+            </a>
+          </article>
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Purelane Bundles",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "kicker",
+      "default": "Build your bundle",
+      "label": "Kicker"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "default": "One box. Every room.",
+      "label": "Heading"
+    },
+    {
+      "type": "textarea",
+      "id": "lede",
+      "default": "Mix and match across kitchen, laundry, home and skin. One flat price, no code needed, free shipping either way.",
+      "label": "Lede"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "bundle_tier",
+      "name": "Bundle Tier",
+      "settings": [
+        {
+          "type": "text",
+          "id": "tag",
+          "label": "Tag (e.g. Starter)"
+        },
+        {
+          "type": "checkbox",
+          "id": "is_featured",
+          "default": false,
+          "label": "Is Featured (Best Value)"
+        },
+        {
+          "type": "select",
+          "id": "tier_preset_image",
+          "options": [
+            { "value": "starter_2", "label": "Starter 2 Products" },
+            { "value": "popular_3", "label": "Popular 3 Products" },
+            { "value": "whole_home_5", "label": "Whole Home 5 Products" }
+          ],
+          "default": "popular_3",
+          "label": "Image Presets Layout"
+        },
+        {
+          "type": "text",
+          "id": "quantity_number",
+          "default": "3",
+          "label": "Quantity Number"
+        },
+        {
+          "type": "text",
+          "id": "quantity_label",
+          "default": "Products",
+          "label": "Quantity Label"
+        },
+        {
+          "type": "text",
+          "id": "price",
+          "default": "₹499",
+          "label": "Price Display"
+        },
+        {
+          "type": "text",
+          "id": "compare_at_price",
+          "default": "₹897",
+          "label": "Compare At Price"
+        },
+        {
+          "type": "text",
+          "id": "unit_price_note",
+          "default": "Flat ₹166 per product",
+          "label": "Unit Price Note"
+        },
+        {
+          "type": "text",
+          "id": "feature_1",
+          "default": "Pick any three products",
+          "label": "Feature Bullet 1"
+        },
+        {
+          "type": "text",
+          "id": "feature_2",
+          "default": "Covers kitchen and laundry",
+          "label": "Feature Bullet 2"
+        },
+        {
+          "type": "text",
+          "id": "feature_3",
+          "default": "Free shipping across India",
+          "label": "Feature Bullet 3"
+        },
+        {
+          "type": "text",
+          "id": "button_text",
+          "default": "Build this box",
+          "label": "Button Text"
+        },
+        {
+          "type": "url",
+          "id": "button_link",
+          "label": "Button Link (URL)"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Purelane Bundles",
+      "blocks": [
+        {
+          "type": "bundle_tier",
+          "settings": {
+            "tag": "Starter",
+            "is_featured": false,
+            "tier_preset_image": "starter_2",
+            "quantity_number": "2",
+            "quantity_label": "Products",
+            "price": "₹349",
+            "compare_at_price": "₹598",
+            "unit_price_note": "Flat ₹174 per product",
+            "feature_1": "Pick any two products",
+            "feature_2": "Free shipping across India",
+            "feature_3": "",
+            "button_text": "Build this box"
+          }
+        },
+        {
+          "type": "bundle_tier",
+          "settings": {
+            "tag": "Most popular",
+            "is_featured": true,
+            "tier_preset_image": "popular_3",
+            "quantity_number": "3",
+            "quantity_label": "Products",
+            "price": "₹499",
+            "compare_at_price": "₹897",
+            "unit_price_note": "Flat ₹166 per product",
+            "feature_1": "Pick any three products",
+            "feature_2": "Covers kitchen and laundry",
+            "feature_3": "Free shipping across India",
+            "button_text": "Build this box"
+          }
+        },
+        {
+          "type": "bundle_tier",
+          "settings": {
+            "tag": "Whole home",
+            "is_featured": false,
+            "tier_preset_image": "whole_home_5",
+            "quantity_number": "5",
+            "quantity_label": "Products",
+            "price": "₹799",
+            "compare_at_price": "₹1495",
+            "unit_price_note": "Flat ₹160 per product",
+            "feature_1": "Pick any five products",
+            "feature_2": "Every room in one order",
+            "feature_3": "Free shipping across India",
+            "button_text": "Build this box"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
