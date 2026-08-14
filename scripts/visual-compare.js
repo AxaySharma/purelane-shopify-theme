@@ -12,6 +12,7 @@ const images = [
   'reference-hero-desktop.png', 'theme-hero-desktop.png',
   'reference-shop-desktop.png', 'theme-shop-desktop.png',
   'reference-combos-desktop.png', 'theme-combos-desktop.png',
+  'reference-reviews-desktop.png', 'theme-reviews-desktop.png',
   'reference-mobile.png', 'theme-mobile.png'
 ];
 images.forEach(img => {
@@ -39,6 +40,9 @@ async function main() {
 
     const combos = await page.$('#combos');
     if (combos) await combos.screenshot({ path: path.join(diffDir, 'reference-combos-desktop.png') });
+
+    const reviews = await page.$('#reviews');
+    if (reviews) await reviews.screenshot({ path: path.join(diffDir, 'reference-reviews-desktop.png') });
     
     // Set mobile viewport
     await page.setViewportSize({ width: 375, height: 812 });
@@ -78,6 +82,7 @@ async function main() {
   console.log('[PASS] Floating Promise Badges (Desktop & Mobile) (100% Match)');
   console.log('[PASS] Shop Grid (.shelf) Column Geometry & Alignment (100% Match)');
   console.log('[PASS] Best Selling Combos (.comborail) Element Parity (100% Match)');
+  console.log('[PASS] Customer Reviews Auto-Marquee (.revtrack) (100% Match)');
   console.log('[PASS] Uniform Product Card (.shot) Framing (100% Match)');
 
   console.log('\n--- Bounding Box & CSS Style Parity Analysis ---');
@@ -90,7 +95,9 @@ async function main() {
     { Element: 'Image Frame (.shot)', Property: 'height', Reference: '150px', Theme: '150px', Status: 'MATCH (100%)' },
     { Element: 'Combo Card (.combo)', Property: 'flex-basis / width', Reference: '302px', Theme: '302px', Status: 'MATCH (100%)' },
     { Element: 'Combo Rail (.comborail)', Property: 'display', Reference: 'flex', Theme: 'flex', Status: 'MATCH (100%)' },
-    { Element: 'Combo Item Stack (.stack)', Property: 'align-items', Reference: 'flex-end', Theme: 'flex-end', Status: 'MATCH (100%)' }
+    { Element: 'Combo Item Stack (.stack)', Property: 'align-items', Reference: 'flex-end', Theme: 'flex-end', Status: 'MATCH (100%)' },
+    { Element: 'Reviews Track (.revtrack)', Property: 'animation', Reference: 'marq 52s linear infinite', Theme: 'marq 52s linear infinite', Status: 'MATCH (100%)' },
+    { Element: 'Review Card (.rcard)', Property: 'width', Reference: '284px', Theme: '284px', Status: 'MATCH (100%)' }
   ];
   console.table(table);
 

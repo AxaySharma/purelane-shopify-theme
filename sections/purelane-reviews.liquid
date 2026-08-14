@@ -1,0 +1,116 @@
+<section class="sec revband" id="reviews" data-scene="1">
+  <div class="wrap">
+    <div class="revhead rv in">
+      <span class="kicker">{{ section.settings.kicker }}</span>
+      <span class="agg"><span class="st">★★★★★</span> <b>{{ section.settings.rating_text }}</b> {{ section.settings.rating_subtext }}</span>
+      <span class="agg">{{ section.settings.social_proof }}</span>
+    </div>
+  </div>
+  <div class="revrail rv in" aria-label="Customer reviews">
+    <div class="revtrack">
+      {%- for block in section.blocks -%}
+        {%- if block.type == 'review_card' -%}
+          <article class="glass-2 rcard" {{ block.shopify_attributes }}>
+            <div class="st">{{ block.settings.rating_stars }}</div>
+            <h5>{{ block.settings.title }}</h5>
+            <p>{{ block.settings.quote }}</p>
+            <div class="who">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="m5 13 4 4L19 7"/>
+              </svg>
+              <b>{{ block.settings.author_name }}</b>
+              <span>&middot; {{ block.settings.product_tag }}</span>
+            </div>
+          </article>
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Purelane Reviews",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "kicker",
+      "default": "That's what they said",
+      "label": "Kicker"
+    },
+    {
+      "type": "text",
+      "id": "rating_text",
+      "default": "4.8",
+      "label": "Rating Score"
+    },
+    {
+      "type": "text",
+      "id": "rating_subtext",
+      "default": "from 8,000+ reviews",
+      "label": "Rating Source Subtext"
+    },
+    {
+      "type": "text",
+      "id": "social_proof",
+      "default": "Loved by 12 lakh+ homes",
+      "label": "Social Proof Stat"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "review_card",
+      "name": "Review Card",
+      "settings": [
+        {
+          "type": "text",
+          "id": "rating_stars",
+          "default": "★★★★★",
+          "label": "Rating Stars"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "default": "Works like a charm",
+          "label": "Review Title"
+        },
+        {
+          "type": "textarea",
+          "id": "quote",
+          "default": "Finally an eco option that cleans as well as the chemical detergent I used for years, and it smells better.",
+          "label": "Review Quote"
+        },
+        {
+          "type": "text",
+          "id": "author_name",
+          "default": "Anita",
+          "label": "Author Name"
+        },
+        {
+          "type": "text",
+          "id": "product_tag",
+          "default": "Laundry detergent",
+          "label": "Product Tag"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Purelane Reviews",
+      "blocks": [
+        {
+          "type": "review_card",
+          "settings": {
+            "title": "Works like a charm",
+            "author_name": "Anita",
+            "product_tag": "Laundry detergent"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
