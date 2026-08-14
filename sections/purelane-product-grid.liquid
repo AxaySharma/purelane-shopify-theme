@@ -1,0 +1,184 @@
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+
+  .purelane-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .purelane-grid {
+      grid-template-columns: repeat({{ section.settings.columns_desktop }}, minmax(0, 1fr));
+      gap: 24px;
+    }
+  }
+{%- endstyle -%}
+
+<div class="color-{{ section.settings.color_scheme }} gradient section-{{ section.id }}-padding">
+  <div class="wrap">
+    {%- if section.settings.title != blank or section.settings.subtitle != blank -%}
+      <div class="title-wrapper-with-link title-wrapper--self-contained-each">
+        {%- if section.settings.subtitle != blank -%}
+          <div class="kicker">{{ section.settings.subtitle | escape }}</div>
+        {%- endif -%}
+        {%- if section.settings.title != blank -%}
+          <h2 class="title inline-richtext {{ section.settings.heading_size }}">
+            {{ section.settings.title }}
+          </h2>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+
+    <div class="purelane-grid">
+      {%- assign collection = section.settings.collection -%}
+      {%- if collection != blank and collection.all_products_count > 0 -%}
+        {%- for product in collection.products limit: section.settings.products_to_show -%}
+          <div class="grid__item">
+            {% render 'purelane-product-card', product: product, show_rating: section.settings.show_rating %}
+          </div>
+        {%- endfor -%}
+      {%- else -%}
+        {%- for i in (1..section.settings.products_to_show) -%}
+          <div class="grid__item">
+            <div class="card purelane-product-card glass">
+              <div class="purelane-product-card__media">
+                <div class="shot">
+                  {{ 'product-' | append: i | placeholder_svg_tag: 'placeholder-svg' }}
+                </div>
+              </div>
+              <div class="purelane-product-card__info">
+                <div class="purelane-product-card__type">Category</div>
+                <h4 class="purelane-product-card__title">
+                  <a href="#">Example Seed Product Title {{ i }}</a>
+                </h4>
+                <div class="pr">
+                  <span class="price-current">$19.99</span>
+                </div>
+                <button type="button" class="btn btn-primary btn-sm purelane-product-card__add-btn" disabled>
+                  Add to Cart
+                </button>
+              </div>
+            </div>
+          </div>
+        {%- endfor -%}
+      {%- endif -%}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Purelane Product Grid",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "inline_richtext",
+      "id": "title",
+      "default": "Purelane Products",
+      "label": "Heading"
+    },
+    {
+      "type": "select",
+      "id": "heading_size",
+      "options": [
+        {
+          "value": "h2",
+          "label": "Small"
+        },
+        {
+          "value": "h1",
+          "label": "Medium"
+        },
+        {
+          "value": "h0",
+          "label": "Large"
+        }
+      ],
+      "default": "h1",
+      "label": "Heading size"
+    },
+    {
+      "type": "text",
+      "id": "subtitle",
+      "default": "Eco-Friendly Collection",
+      "label": "Subtitle / Kicker"
+    },
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "Collection"
+    },
+    {
+      "type": "range",
+      "id": "products_to_show",
+      "min": 2,
+      "max": 12,
+      "step": 1,
+      "default": 4,
+      "label": "Products to show"
+    },
+    {
+      "type": "range",
+      "id": "columns_desktop",
+      "min": 1,
+      "max": 4,
+      "step": 1,
+      "default": 4,
+      "label": "Number of columns on desktop"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color Scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_rating",
+      "default": true,
+      "label": "Show product rating"
+    },
+    {
+      "type": "header",
+      "content": "Section Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "default": 36,
+      "label": "Padding Top"
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "default": 36,
+      "label": "Padding Bottom"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Purelane Product Grid"
+    }
+  ]
+}
+{% endschema %}

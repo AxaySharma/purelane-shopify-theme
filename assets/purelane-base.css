@@ -312,26 +312,78 @@
 }
 
 /* Product Card Styling */
+
+/* --- Strict Uniform Card System --- */
+.card {
+  display: flex !important;
+  flex-direction: column !important;
+  height: 100% !important;
+  padding: 16px !important;
+  box-sizing: border-box !important;
+  transition: transform .4s var(--ease) !important;
+}
+
 .purelane-product-card {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
   overflow: hidden;
   position: relative;
-  transition: transform 0.4s var(--ease), box-shadow 0.4s var(--ease);
 }
 
 .purelane-product-card:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 30px 60px rgba(58, 44, 112, 0.18);
+  transform: translateY(-6px) !important;
+  box-shadow: 0 30px 60px rgba(58, 44, 112, 0.18) !important;
 }
 
 .purelane-product-card__media {
   position: relative;
-  aspect-ratio: 1 / 1;
   overflow: hidden;
-  border-radius: calc(var(--r) - 2px) calc(var(--r) - 2px) 0 0;
   width: 100%;
+}
+
+.card .shot {
+  width: 100% !important;
+  height: 160px !important; /* Fixed frame height */
+  min-height: 160px !important;
+  max-height: 160px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  position: relative !important;
+  overflow: hidden !important;
+  padding: 14px !important;
+  border-radius: 14px !important;
+  background: linear-gradient(160deg, rgba(255,255,255,.60), rgba(236,230,247,.42)) !important;
+  border: 1px solid var(--g-line) !important;
+  box-sizing: border-box !important;
+  margin-bottom: 14px !important;
+}
+
+/* Force all images (regardless of aspect ratio) to fit inside the 160px box */
+.card .shot img {
+  width: auto !important;
+  height: 100% !important;
+  max-height: 130px !important;
+  max-width: 100% !important;
+  object-fit: contain !important;
+  object-position: center bottom !important;
+  display: block !important;
+  margin: 0 auto !important;
+  filter: drop-shadow(0 8px 13px rgba(0,74,66,.13)) !important;
+  transition: transform .35s var(--ease) !important;
+}
+
+.card:hover .shot img {
+  transform: scale(1.05) translateY(-2px) !important;
+}
+
+/* Fallback SVG when product has no image */
+.card .shot svg {
+  width: auto !important;
+  height: 100% !important;
+  max-height: 120px !important;
+  max-width: 80% !important;
+  object-fit: contain !important;
+  display: block !important;
+  margin: 0 auto !important;
 }
 
 .purelane-product-card__link {
@@ -340,37 +392,10 @@
   height: 100%;
 }
 
-.purelane-product-card__image {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: transform 0.6s var(--ease);
-}
-
-.purelane-product-card:hover .purelane-product-card__image {
-  transform: scale(1.05);
-}
-
-.purelane-product-card__placeholder {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: var(--deep);
-  color: var(--brand);
-}
-
-.purelane-product-card__placeholder svg {
-  width: 50%;
-  height: 50%;
-  opacity: 0.7;
-}
-
 .purelane-product-card__badge {
   position: absolute;
-  top: 16px;
-  left: 16px;
+  top: 12px;
+  left: 12px;
   background: var(--brand);
   color: var(--ink);
   padding: 4px 12px;
@@ -391,7 +416,7 @@
 }
 
 .purelane-product-card__info {
-  padding: 24px;
+  padding: 0 !important;
   display: flex;
   flex-direction: column;
   flex-grow: 1;
@@ -407,57 +432,57 @@
   margin-bottom: 8px;
 }
 
-.purelane-product-card__title {
-  font-family: 'Outfit', sans-serif;
-  font-size: 1.6rem;
-  font-weight: 600;
-  line-height: 1.4;
-  margin: 0 0 12px 0;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-  height: 4.48rem;
+/* Uniform Title: clamp to 2 lines so card heights stay identical */
+.card h4 {
+  font-family: 'Outfit', sans-serif !important;
+  font-size: 13.5px !important;
+  font-weight: 700 !important;
+  text-transform: uppercase !important;
+  letter-spacing: .03em !important;
+  color: var(--surface) !important;
+  line-height: 1.25 !important;
+  margin-bottom: 7px !important;
+  height: 2.5em !important;
+  display: -webkit-box !important;
+  -webkit-line-clamp: 2 !important;
+  -webkit-box-orient: vertical !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
 }
 
-.purelane-product-card__title a {
-  color: var(--brand);
+.card h4 a {
+  color: inherit;
   text-decoration: none;
   transition: color 0.3s var(--ease);
 }
 
-.purelane-product-card__title a:hover {
+.card h4 a:hover {
   color: var(--brand-lt);
 }
 
-.purelane-product-card__rating {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  margin-bottom: 12px;
+/* Uniform Rating Row */
+.card .rate {
+  font-size: 11.5px !important;
+  color: var(--paper-2) !important;
+  margin-bottom: 10px !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 5px !important;
+  min-height: 16px !important;
 }
 
 .rating-stars {
   color: var(--accent);
   letter-spacing: 2px;
-  font-size: 1.2rem;
 }
 
-.rating-count {
-  font-family: 'Inter', sans-serif;
-  font-size: 1.2rem;
-  color: var(--paper-3);
-}
-
-.purelane-product-card__price-row {
-  margin-top: auto;
-  margin-bottom: 16px;
-}
-
-.purelane-product-card__price {
-  display: flex;
-  align-items: baseline;
-  gap: 8px;
+/* Push Price & Button to the very bottom */
+.card .pr {
+  margin-top: auto !important;
+  display: flex !important;
+  align-items: baseline !important;
+  gap: 8px !important;
+  margin-bottom: 12px !important;
 }
 
 .price-current {
@@ -474,11 +499,81 @@
   color: var(--paper-3);
 }
 
-.purelane-product-card__actions {
-  width: 100%;
+.card .btn {
+  width: 100% !important;
+  justify-content: center !important;
 }
 
-.purelane-product-card__add-btn {
-  width: 100%;
+@media (max-width: 760px) {
+  .card .shot {
+    height: 130px !important;
+    min-height: 130px !important;
+    max-height: 130px !important;
+  }
+  .card .shot img {
+    max-height: 105px !important;
+  }
 }
+
+/* --- Universal Card Image Normalization (Purelane & Dawn Fallback) --- */
+.card-wrapper,
+.shelf .card,
+.product-grid .grid__item {
+  height: 100% !important;
+  display: flex !important;
+  flex-direction: column !important;
+}
+
+/* Target both Purelane .shot and Dawn .card__inner / .media */
+.card .shot,
+.card__inner,
+.card-wrapper .media,
+.card__media {
+  height: 180px !important;
+  min-height: 180px !important;
+  max-height: 180px !important;
+  padding-bottom: 0 !important; /* Override Dawn dynamic aspect-ratio padding */
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  position: relative !important;
+  overflow: hidden !important;
+  border-radius: 14px !important;
+  background: linear-gradient(160deg, rgba(255, 255, 255, 0.60), rgba(236, 230, 247, 0.42)) !important;
+  border: 1px solid var(--g-line) !important;
+}
+
+/* Force every image to fit neatly within the 180px frame without cropping */
+.card .shot img,
+.card__inner img,
+.card-wrapper .media img {
+  position: static !important;
+  width: auto !important;
+  height: 100% !important;
+  max-height: 140px !important;
+  max-width: 85% !important;
+  object-fit: contain !important;
+  object-position: center !important;
+  display: block !important;
+  margin: 0 auto !important;
+  filter: drop-shadow(0 8px 13px rgba(0, 74, 66, 0.13)) !important;
+  transition: transform 0.35s var(--ease) !important;
+}
+
+.card:hover .shot img,
+.card-wrapper:hover .media img {
+  transform: scale(1.06) translateY(-2px) !important;
+}
+
+/* Empty Image Fallback SVG sizing */
+.card .shot .placeholder-svg,
+.card .shot svg {
+  max-height: 120px !important;
+  max-width: 80% !important;
+  width: auto !important;
+  height: 100% !important;
+}
+
+
+
 
