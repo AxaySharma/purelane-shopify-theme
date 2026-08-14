@@ -1,0 +1,89 @@
+{% comment %}
+  Renders a Purelane custom product card with glassmorphism styling and AJAX add to cart.
+  Accepts:
+  - product: {Object} Shopify Product object (required)
+  - badge_text: {String} Optional badge text override
+  - show_rating: {Boolean} Show rating if true (default: true)
+{% endcomment %}
+
+{%- assign show_rating = show_rating | default: true -%}
+{%- assign current_variant = product.selected_or_first_available_variant -%}
+
+<div class="purelane-product-card glass rv" data-product-id="{{ product.id }}">
+  <div class="purelane-product-card__media">
+    {%- if badge_text != blank -%}
+      <span class="purelane-product-card__badge">{{ badge_text }}</span>
+    {%- elsif current_variant.available == false -%}
+      <span class="purelane-product-card__badge sold-out">Sold Out</span>
+    {%- elsif product.compare_at_price > product.price -%}
+      {%- assign discount = product.compare_at_price | minus: product.price | times: 100.0 | divided_by: product.compare_at_price | round -%}
+      <span class="purelane-product-card__badge discount">-{{ discount }}%</span>
+    {%- endif -%}
+
+    <a href="{{ product.url }}" class="purelane-product-card__link" aria-label="{{ product.title | escape }}">
+      {%- if product.featured_image -%}
+        <img
+          src="{{ product.featured_image | image_url: width: 533 }}"
+          sizes="(min-width: 1200px) 360px, (min-width: 990px) calc((100vw - 130px) / 4), (min-width: 750px) calc((100vw - 120px) / 3), calc((100vw - 35px) / 2)"
+          alt="{{ product.featured_image.alt | default: product.title | escape }}"
+          class="purelane-product-card__image"
+          loading="lazy"
+          width="{{ product.featured_image.width }}"
+          height="{{ product.featured_image.height }}"
+        >
+      {%- else -%}
+        <div class="purelane-product-card__placeholder glass-2">
+          <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor">
+            <rect width="100" height="100" fill="rgba(75,58,143,0.05)" rx="16"/>
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M30 40 L50 60 L70 40" />
+            <circle cx="50" cy="50" r="15" stroke-width="1.5" />
+          </svg>
+        </div>
+      {%- endif -%}
+    </a>
+  </div>
+
+  <div class="purelane-product-card__info">
+    <div class="purelane-product-card__type">{{ product.type | default: 'Homecare' }}</div>
+    <h3 class="purelane-product-card__title">
+      <a href="{{ product.url }}">{{ product.title }}</a>
+    </h3>
+
+    {%- if show_rating and product.metafields.reviews.rating.value -%}
+      <div class="purelane-product-card__rating">
+        <span class="rating-stars" style="--rating: {{ product.metafields.reviews.rating.value.rating }};">★★★★★</span>
+        <span class="rating-count">({{ product.metafields.reviews.rating_count }})</span>
+      </div>
+    {%- endif -%}
+
+    <div class="purelane-product-card__price-row">
+      <div class="purelane-product-card__price">
+        <span class="price-current">{{ product.price | money_without_trailing_zeros }}</span>
+        {%- if product.compare_at_price > product.price -%}
+          <span class="price-compare">{{ product.compare_at_price | money_without_trailing_zeros }}</span>
+        {%- endif -%}
+      </div>
+    </div>
+
+    <div class="purelane-product-card__actions">
+      {%- if current_variant.available -%}
+        <button
+          type="button"
+          class="btn btn-primary btn-sm purelane-product-card__add-btn"
+          data-variant-id="{{ current_variant.id }}"
+          onclick="purelaneAddToCart(this)"
+        >
+          Add to Cart
+        </button>
+      {%- else -%}
+        <button
+          type="button"
+          class="btn btn-primary btn-sm purelane-product-card__add-btn"
+          disabled
+        >
+          Sold Out
+        </button>
+      {%- endif -%}
+    </div>
+  </div>
+</div>

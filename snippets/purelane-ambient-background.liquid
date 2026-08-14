@@ -1,0 +1,35 @@
+<div class="scenes" aria-hidden="true">
+  <!-- Ambient Scenes for Crossfading -->
+  <div class="scene scene-1 active"></div>
+  <div class="scene scene-2"></div>
+  
+  <!-- SVG Water Cinematics -->
+  <svg class="water" viewBox="0 0 1000 1000" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+    <defs>
+      <linearGradient id="water-grad-1" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="rgba(226, 218, 243, 0.3)" />
+        <stop offset="50%" stop-color="rgba(75, 58, 143, 0.05)" />
+        <stop offset="100%" stop-color="rgba(184, 112, 28, 0.02)" />
+      </linearGradient>
+      <linearGradient id="water-grad-2" x1="100%" y1="0%" x2="0%" y2="100%">
+        <stop offset="0%" stop-color="rgba(244, 240, 251, 0.4)" />
+        <stop offset="100%" stop-color="rgba(226, 218, 243, 0.1)" />
+      </linearGradient>
+    </defs>
+    
+    <!-- Smooth Organic Waves -->
+    <path class="wl wl-a wl-s" d="M 0,200 C 300,150 400,350 700,250 C 900,180 1000,200 1000,200 L 1000,1000 L 0,1000 Z" fill="url(#water-grad-1)" />
+    <path class="wl wl-b wl-s" d="M 0,250 C 200,300 500,200 800,300 C 950,350 1000,280 1000,280 L 1000,1000 L 0,1000 Z" fill="url(#water-grad-2)" />
+    <path class="wl wl-c" d="M 0,350 C 400,250 600,450 1000,350 L 1000,1000 L 0,1000 Z" fill="url(#water-grad-1)" opacity="0.5" />
+  </svg>
+  
+  <!-- Floating Ambient Bubbles -->
+  <div class="bub" style="left: 10%; width: 30px; height: 30px; animation-duration: 18s; animation-delay: 0s;"></div>
+  <div class="bub" style="left: 30%; width: 45px; height: 45px; animation-duration: 25s; animation-delay: 2s;"></div>
+  <div class="bub" style="left: 55%; width: 25px; height: 25px; animation-duration: 14s; animation-delay: 5s;"></div>
+  <div class="bub" style="left: 75%; width: 50px; height: 50px; animation-duration: 30s; animation-delay: 1s;"></div>
+  <div class="bub" style="left: 90%; width: 35px; height: 35px; animation-duration: 22s; animation-delay: 7s;"></div>
+  
+  <!-- Ambient Vignette -->
+  <div class="vig"></div>
+</div>

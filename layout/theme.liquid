@@ -279,6 +279,7 @@
     {% endstyle %}
 
     {{ 'base.css' | asset_url | stylesheet_tag }}
+    {{ 'purelane-base.css' | asset_url | stylesheet_tag }}
     <link rel="stylesheet" href="{{ 'component-cart-items.css' | asset_url }}" media="print" onload="this.media='all'">
 
     {%- if settings.cart_type == 'drawer' -%}
@@ -322,6 +323,7 @@
   </head>
 
   <body class="gradient{% if settings.animations_hover_elements != 'none' %} animate--hover-{{ settings.animations_hover_elements }}{% endif %}">
+    {% render 'purelane-ambient-background' %}
     <a class="skip-to-content-link button visually-hidden" href="#MainContent">
       {{ 'accessibility.skip_to_text' | t }}
     </a>
@@ -401,5 +403,108 @@
     {%- if settings.cart_type == 'drawer' -%}
       <script src="{{ 'cart-drawer.js' | asset_url }}" defer="defer"></script>
     {%- endif -%}
+
+    <script>
+      // Scroll Reveal Element Observer
+      document.addEventListener('DOMContentLoaded', () => {
+        const revealElements = document.querySelectorAll('.rv');
+        const revealObserver = new IntersectionObserver((entries, observer) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('in');
+              observer.unobserve(entry.target);
+            }
+          });
+        }, {
+          threshold: 0.1,
+          rootMargin: '0px 0px -50px 0px'
+        });
+        revealElements.forEach(el => revealObserver.observe(el));
+
+        // Ambient Scene Crossfading
+        const scenes = document.querySelectorAll('.scenes .scene');
+        if (scenes.length > 1) {
+          let activeIndex = 0;
+          setInterval(() => {
+            scenes[activeIndex].classList.remove('active');
+            activeIndex = (activeIndex + 1) % scenes.length;
+            scenes[activeIndex].classList.add('active');
+          }, 8000);
+        }
+      });
+
+      // AJAX Add to Cart Handler
+      function purelaneAddToCart(button) {
+        const variantId = button.getAttribute('data-variant-id');
+        if (!variantId) return;
+
+        const originalText = button.textContent;
+        button.disabled = true;
+        button.textContent = 'Adding...';
+
+        const formData = {
+          'items': [{
+            'id': variantId,
+            'quantity': 1
+          }]
+        };
+
+        fetch(window.routes.cart_add_url || '/cart/add.js', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(formData)
+        })
+        .then(response => {
+          if (!response.ok) {
+            throw new Error('Network response was not ok');
+          }
+          return response.json();
+        })
+        .then(data => {
+          button.textContent = 'Added!';
+          button.classList.add('btn-added');
+
+          // Trigger dynamic cart drawer / notification updates in Dawn
+          const cartDrawer = document.querySelector('cart-drawer');
+          const cartNotification = document.querySelector('cart-notification');
+
+          if (cartDrawer && typeof cartDrawer.renderContents === 'function') {
+            fetch(`${window.routes.cart_url || '/cart'}?section_id=cart-drawer`)
+              .then(res => res.text())
+              .then(html => {
+                const parsedHTML = new DOMParser().parseFromString(html, 'text/html');
+                const section = parsedHTML.getElementById('CartDrawer');
+                if (section) {
+                  cartDrawer.querySelector('#CartDrawer').innerHTML = section.innerHTML;
+                }
+                if (cartDrawer.classList.contains('is-empty')) {
+                  cartDrawer.classList.remove('is-empty');
+                }
+                cartDrawer.open();
+              });
+          } else if (cartNotification && typeof cartNotification.renderContents === 'function') {
+            cartNotification.renderContents(data);
+          } else {
+            window.location.reload();
+          }
+
+          setTimeout(() => {
+            button.disabled = false;
+            button.textContent = originalText;
+            button.classList.remove('btn-added');
+          }, 2000);
+        })
+        .catch((error) => {
+          console.error('Error adding to cart:', error);
+          button.textContent = 'Error';
+          setTimeout(() => {
+            button.disabled = false;
+            button.textContent = originalText;
+          }, 2000);
+        });
+      }
+    </script>
   </body>
 </html>
