@@ -505,6 +505,210 @@
 .card .pr s { font-size: 12px !important; color: var(--paper-3) !important; }
 .card .pr em { font-style: normal !important; font-size: 10px !important; font-weight: 800 !important; letter-spacing: .08em !important; color: var(--accent) !important; }
 
+/* ---------- BEST SELLING COMBOS ---------- */
+.comborail {
+  display: flex !important;
+  gap: 14px !important;
+  overflow-x: auto !important;
+  overflow-y: hidden !important;
+  scroll-snap-type: x mandatory !important;
+  margin: 0 -18px !important;
+  padding: 4px 18px 14px !important;
+  scrollbar-width: none !important;
+  -webkit-overflow-scrolling: touch !important;
+}
+
+.comborail::-webkit-scrollbar {
+  display: none !important;
+}
+
+.combo {
+  flex: 0 0 302px !important;
+  scroll-snap-align: start !important;
+  display: flex !important;
+  flex-direction: column !important;
+  padding: 0 !important;
+  transition: .4s var(--ease) !important;
+}
+
+.combo:hover {
+  transform: translateY(-5px) !important;
+}
+
+.combo.hero-combo {
+  border-color: rgba(240, 160, 60, .42) !important;
+  box-shadow: 0 26px 74px rgba(18, 12, 34, .44), 0 0 0 1px rgba(240, 160, 60, .2), var(--g-inset) !important;
+}
+
+.combo .tray {
+  padding: 14px 14px 13px !important;
+  border-bottom: 1px solid rgba(236, 230, 247, .13) !important;
+  position: relative !important;
+  background: linear-gradient(162deg, rgba(236, 230, 247, .13), rgba(75, 58, 143, .10)) !important;
+}
+
+.combo .save {
+  display: inline-block !important;
+  font-size: 9.5px !important;
+  font-weight: 800 !important;
+  letter-spacing: .12em !important;
+  text-transform: uppercase !important;
+  padding: 5px 11px !important;
+  border-radius: 999px !important;
+  background: rgba(3, 30, 28, .72) !important;
+  border: 1px solid rgba(240, 160, 60, .34) !important;
+  color: var(--accent) !important;
+  margin-bottom: 13px !important;
+}
+
+.combo .flag {
+  position: absolute !important;
+  top: 14px !important;
+  right: 14px !important;
+  font-size: 8.6px !important;
+  font-weight: 800 !important;
+  letter-spacing: .1em !important;
+  text-transform: uppercase !important;
+  padding: 5px 10px !important;
+  border-radius: 999px !important;
+  background: linear-gradient(135deg, #00706a, #004b46) !important;
+  color: #f4fdf6 !important;
+}
+.stack {
+  display: flex !important;
+  align-items: flex-end !important;
+  gap: 3px !important;
+}
+.stack .it {
+  flex: 1 1 0 !important;
+  min-width: 0 !important;
+  text-align: center !important;
+}
+.stack .it .pimg {
+  height: 66px !important;
+  margin: 0 auto 8px !important;
+  filter: drop-shadow(0 5px 8px rgba(0,74,66,.13)) !important;
+}
+.stack .it .tile {
+  height: 66px !important;
+  width: 44px !important;
+  margin: 0 auto 8px !important;
+  display: grid !important;
+  place-items: center !important;
+  border-radius: 9px !important;
+  background: rgba(255,255,255,.5) !important;
+  border: 1px dashed rgba(75,58,143,.26) !important;
+  color: #4f7d10 !important;
+}
+.stack .it .tile svg { width: 17px !important; height: 17px !important; }
+.stack .it span {
+  display: block !important;
+  font-size: 8.6px !important;
+  line-height: 1.32 !important;
+  color: var(--paper-2) !important;
+  font-weight: 600 !important;
+}
+.stack .plus {
+  flex: 0 0 9px !important;
+  color: #b8701c !important;
+  font-weight: 800 !important;
+  font-size: 12px !important;
+  padding-bottom: 30px !important;
+  text-align: center !important;
+}
+.combo .body {
+  padding: 15px 16px 18px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  flex: 1 !important;
+}
+.combo .body h3 {
+  font-family: 'Outfit', sans-serif !important;
+  font-size: 16px !important;
+  font-weight: 700 !important;
+  text-transform: uppercase !important;
+  letter-spacing: -.005em !important;
+  line-height: 1.1 !important;
+  color: var(--surface) !important;
+}
+.combo .cnt {
+  font-size: 10.5px !important;
+  font-weight: 700 !important;
+  letter-spacing: .12em !important;
+  text-transform: uppercase !important;
+  color: var(--paper-3) !important;
+  margin-top: 6px !important;
+}
+.combo .inc {
+  font-size: 12.4px !important;
+  color: var(--paper-2) !important;
+  line-height: 1.55 !important;
+  margin: 11px 0 14px !important;
+  flex: 1 !important;
+}
+.combo .prow {
+  display: flex !important;
+  align-items: baseline !important;
+  gap: 9px !important;
+  flex-wrap: wrap !important;
+  margin-bottom: 6px !important;
+}
+.combo .prow strong {
+  font-family: 'Outfit', sans-serif !important;
+  font-size: 25px !important;
+  font-weight: 800 !important;
+  color: var(--surface) !important;
+  letter-spacing: -.02em !important;
+}
+.combo .prow s {
+  font-size: 13px !important;
+  color: var(--paper-3) !important;
+}
+.combo .prow em {
+  font-style: normal !important;
+  font-size: 9.5px !important;
+  font-weight: 800 !important;
+  letter-spacing: .1em !important;
+  text-transform: uppercase !important;
+  padding: 4px 9px !important;
+  border-radius: 999px !important;
+  background: rgba(201,118,29,.14) !important;
+  border: 1px solid rgba(201,118,29,.34) !important;
+  color: #4f7d10 !important;
+}
+.combo .fine {
+  font-size: 10.4px !important;
+  color: var(--paper-3) !important;
+  margin-bottom: 14px !important;
+}
+.combo .btn { width: 100% !important; justify-content: center !important; }
+.railnote {
+  text-align: center !important;
+  font-size: 12px !important;
+  color: var(--paper-3) !important;
+  margin-top: 14px !important;
+  max-width: 62ch !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+.swipecue {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 8px !important;
+  font-size: 10px !important;
+  font-weight: 700 !important;
+  letter-spacing: .16em !important;
+  text-transform: uppercase !important;
+  color: var(--paper-3) !important;
+  margin-top: 2px !important;
+}
+.swipecue svg { width: 14px !important; height: 14px !important; color: #b8701c !important; }
+@media(max-width: 760px) {
+  .combo { flex: 0 0 268px !important; min-width: 268px !important; max-width: 268px !important; }
+  .comborail { margin: 0 -14px !important; padding: 4px 14px 12px !important; width: calc(100% + 28px) !important; }
+}
+
 /* ---------- DAWN OVERRIDES / RESETS ---------- */
 .hero, .shelf, .card, .btn {
   font-size: inherit;
