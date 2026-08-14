@@ -1,0 +1,42 @@
+<div class="sticky">
+  <span class="lbl"><b>{{ section.settings.bold_text }}</b><span>{{ section.settings.sub_text }}</span></span>
+  <a class="btn btn-primary btn-sm" href="{{ section.settings.button_link | default: '#bundles' }}">{{ section.settings.button_text }}</a>
+</div>
+
+{% schema %}
+{
+  "name": "Purelane Sticky CTA",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "bold_text",
+      "default": "Pick any 3, pay ₹499",
+      "label": "Bold Text Incentive"
+    },
+    {
+      "type": "text",
+      "id": "sub_text",
+      "default": "Free shipping, always",
+      "label": "Subtext Note"
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "default": "Build bundle",
+      "label": "Button Text"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button Link (URL)"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Purelane Sticky CTA"
+    }
+  ]
+}
+{% endschema %}

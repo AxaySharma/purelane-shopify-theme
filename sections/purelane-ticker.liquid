@@ -1,0 +1,78 @@
+<div class="ticker" aria-hidden="true">
+  <div class="track">
+    {%- for block in section.blocks -%}
+      {%- if block.type == 'ticker_item' -%}
+        <span>{{ block.settings.text_1 }} <b>{{ block.settings.text_2 }}</b></span>
+      {%- endif -%}
+    {%- endfor -%}
+    {%- for block in section.blocks -%}
+      {%- if block.type == 'ticker_item' -%}
+        <span>{{ block.settings.text_1 }} <b>{{ block.settings.text_2 }}</b></span>
+      {%- endif -%}
+    {%- endfor -%}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Purelane Ticker",
+  "tag": "section",
+  "class": "section",
+  "settings": [],
+  "blocks": [
+    {
+      "type": "ticker_item",
+      "name": "Ticker Item",
+      "settings": [
+        {
+          "type": "text",
+          "id": "text_1",
+          "default": "100% plant-based",
+          "label": "Prefix Text"
+        },
+        {
+          "type": "text",
+          "id": "text_2",
+          "default": "and non-toxic",
+          "label": "Accent Text"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Purelane Ticker",
+      "blocks": [
+        {
+          "type": "ticker_item",
+          "settings": {
+            "text_1": "Free shipping",
+            "text_2": "on every bundle across India"
+          }
+        },
+        {
+          "type": "ticker_item",
+          "settings": {
+            "text_1": "100% plant-based",
+            "text_2": "and non-toxic"
+          }
+        },
+        {
+          "type": "ticker_item",
+          "settings": {
+            "text_1": "Loved by",
+            "text_2": "30,000+ happy homes"
+          }
+        },
+        {
+          "type": "ticker_item",
+          "settings": {
+            "text_1": "Buy 3",
+            "text_2": "at flat ₹499"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

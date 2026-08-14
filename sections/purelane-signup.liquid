@@ -1,0 +1,53 @@
+<section class="sec" data-scene="4">
+  <div class="wrap">
+    <div class="glass signup rv">
+      <span class="kicker">{{ section.settings.kicker }}</span>
+      <h2 class="d2" style="margin-top:12px">{{ section.settings.heading }}</h2>
+      <p class="lede" style="margin:0 auto">{{ section.settings.lede }}</p>
+      {%- form 'customer', class: 'signup-form' -%}
+        <input type="hidden" name="contact[tags]" value="newsletter">
+        <input type="email" name="contact[email]" placeholder="your@email.com" aria-label="Email address" required>
+        <button class="btn btn-primary" type="submit">{{ section.settings.button_text }}</button>
+      {%- endform -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Purelane Signup",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "kicker",
+      "default": "Join the Purelane Club",
+      "label": "Kicker"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "default": "Get ₹100 off your first bundle",
+      "label": "Heading"
+    },
+    {
+      "type": "text",
+      "id": "lede",
+      "default": "Plus first access to new launches and restocks.",
+      "label": "Lede"
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "default": "Get my ₹100 off",
+      "label": "Button Text"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Purelane Signup"
+    }
+  ]
+}
+{% endschema %}

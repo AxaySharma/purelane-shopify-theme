@@ -1,5 +1,49 @@
 {
   "sections": {
+    "purelane_ticker": {
+      "type": "purelane-ticker",
+      "settings": {},
+      "blocks": {
+        "tick_1": {
+          "type": "ticker_item",
+          "settings": {
+            "text_1": "Free shipping",
+            "text_2": "on every bundle across India"
+          }
+        },
+        "tick_2": {
+          "type": "ticker_item",
+          "settings": {
+            "text_1": "100% plant-based",
+            "text_2": "and non-toxic"
+          }
+        },
+        "tick_3": {
+          "type": "ticker_item",
+          "settings": {
+            "text_1": "Loved by",
+            "text_2": "30,000+ happy homes"
+          }
+        },
+        "tick_4": {
+          "type": "ticker_item",
+          "settings": {
+            "text_1": "Buy 3",
+            "text_2": "at flat ₹499"
+          }
+        }
+      },
+      "block_order": [
+        "tick_1",
+        "tick_2",
+        "tick_3",
+        "tick_4"
+      ]
+    },
+    "purelane_header": {
+      "type": "purelane-header",
+      "settings": {}
+    },
     "purelane_hero": {
       "type": "purelane-hero",
       "settings": {
@@ -294,13 +338,71 @@
         "tier_2",
         "tier_3"
       ]
+    },
+    "purelane_trust": {
+      "type": "purelane-trust",
+      "settings": {},
+      "blocks": {
+        "tr_1": {
+          "type": "trust_item",
+          "settings": {
+            "icon_type": "leaf",
+            "text": "Plant derived<br>formulas"
+          }
+        },
+        "tr_2": {
+          "type": "trust_item",
+          "settings": {
+            "icon_type": "box",
+            "text": "Recyclable<br>packaging"
+          }
+        },
+        "tr_3": {
+          "type": "trust_item",
+          "settings": {
+            "icon_type": "heart",
+            "text": "Safe for<br>kids & pets"
+          }
+        },
+        "tr_4": {
+          "type": "trust_item",
+          "settings": {
+            "icon_type": "globe",
+            "text": "Made in<br>India"
+          }
+        }
+      },
+      "block_order": [
+        "tr_1",
+        "tr_2",
+        "tr_3",
+        "tr_4"
+      ]
+    },
+    "purelane_signup": {
+      "type": "purelane-signup",
+      "settings": {}
+    },
+    "purelane_footer": {
+      "type": "purelane-footer",
+      "settings": {}
+    },
+    "purelane_sticky_cta": {
+      "type": "purelane-sticky-cta",
+      "settings": {}
     }
   },
   "order": [
+    "purelane_ticker",
+    "purelane_header",
     "purelane_hero",
     "purelane_reviews",
     "purelane_product_grid",
     "purelane_combos",
-    "purelane_bundles"
+    "purelane_bundles",
+    "purelane_trust",
+    "purelane_signup",
+    "purelane_footer",
+    "purelane_sticky_cta"
   ]
 }
