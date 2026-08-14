@@ -1,0 +1,428 @@
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+{%- endstyle -%}
+
+<section class="hero section-{{ section.id }}-padding" data-scene="1">
+  <div class="hero-grid wrap">
+
+    <!-- Promises Badge Rail -->
+    <div class="badges glass-2" aria-label="Product promises">
+      {%- for block in section.blocks -%}
+        {%- if block.type == 'promise_badge' -%}
+          <div class="badge" {{ block.shopify_attributes }}>
+            <span class="bi">
+              {%- if block.settings.badge_icon == 'leaf' -%}
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21c0-6.5 3.5-11 8-12.5C20 15 16.5 20 12 21Z"/><path d="M12 21C12 14.5 8.5 10 4 8.5 4 15 7.5 20 12 21Z"/></svg>
+              {%- elsif block.settings.badge_icon == 'shield' -%}
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 4.5 6v6.2c0 4.3 3.1 7.6 7.5 8.8 4.4-1.2 7.5-4.5 7.5-8.8V6L12 3Z"/><path d="m9 12 2.2 2.2L15.4 10"/></svg>
+              {%- else -%}
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.4"/><path d="M6.4 17.6 17.6 6.4"/></svg>
+              {%- endif -%}
+            </span>
+            <span>{{ block.settings.badge_text }}</span>
+          </div>
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+
+    <!-- Main Copy/Headline -->
+    <div class="hero-copy">
+      <h1 class="d1 rv in">{{ section.settings.title_html }}</h1>
+      
+      <div class="rule rv rv-d1">
+        <i></i>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21c0-6.5 3.5-11 8-12.5C20 15 16.5 20 12 21Z"/><path d="M12 21C12 14.5 8.5 10 4 8.5 4 15 7.5 20 12 21Z"/></svg>
+        <i></i>
+      </div>
+
+      <p class="lede rv rv-d2">{{ section.settings.lede }}</p>
+
+      <div class="hero-cta rv rv-d3">
+        {%- if section.settings.btn_primary_text != blank -%}
+          <a class="btn btn-primary" href="{{ section.settings.btn_primary_link | default: '#shop' }}">
+            {{ section.settings.btn_primary_text }}
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h13m-5-6 6 6-6 6"/></svg>
+          </a>
+        {%- endif -%}
+        {%- if section.settings.btn_secondary_text != blank -%}
+          <a class="btn btn-ghost" href="{{ section.settings.btn_secondary_link | default: '#how' }}">
+            {{ section.settings.btn_secondary_text }}
+          </a>
+        {%- endif -%}
+      </div>
+
+      <!-- Mobile Badge Strip -->
+      <div class="badgestrip rv rv-d4">
+        {%- for block in section.blocks -%}
+          {%- if block.type == 'promise_badge' -%}
+            <div class="glass-2">
+              {%- if block.settings.badge_icon == 'leaf' -%}
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21c0-6.5 3.5-11 8-12.5C20 15 16.5 20 12 21Z"/><path d="M12 21C12 14.5 8.5 10 4 8.5 4 15 7.5 20 12 21Z"/></svg>
+              {%- elsif block.settings.badge_icon == 'shield' -%}
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 4.5 6v6.2c0 4.3 3.1 7.6 7.5 8.8 4.4-1.2 7.5-4.5 7.5-8.8V6L12 3Z"/><path d="m9 12 2.2 2.2L15.4 10"/></svg>
+              {%- else -%}
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.4"/><path d="M6.4 17.6 17.6 6.4"/></svg>
+              {%- endif -%}
+              {{ block.settings.badge_mobile_text | default: block.settings.badge_text }}
+            </div>
+          {%- endif -%}
+        {%- endfor -%}
+      </div>
+    </div>
+
+    <!-- Product Rotator / Bundle Stage -->
+    <div class="hero-prod" id="heroProd">
+      <div class="hstage" id="hstage">
+
+        <!-- Slide 1 -->
+        {%- assign p1 = section.settings.product_1 -%}
+        {%- assign p1_title = section.settings.slide_1_label | default: 'Single bottle' -%}
+        {%- assign p1_price = section.settings.slide_1_price | default: '₹200' -%}
+        {%- assign p1_compare = section.settings.slide_1_compare | default: '₹299' -%}
+        {%- assign p1_discount = section.settings.slide_1_discount | default: '33% off' -%}
+        {%- if p1 != blank -%}
+          {%- assign p1_price = p1.price | money_without_trailing_zeros -%}
+          {%- if p1.compare_at_price > p1.price -%}
+            {%- assign p1_compare = p1.compare_at_price | money_without_trailing_zeros -%}
+            {%- assign discount_calc = p1.compare_at_price | minus: p1.price | times: 100.0 | divided_by: p1.compare_at_price | round -%}
+            {%- assign p1_discount = discount_calc | append: '% off' -%}
+          {%- else -%}
+            {%- assign p1_compare = '' -%}
+            {%- assign p1_discount = '' -%}
+          {%- endif -%}
+        {%- endif -%}
+
+        <div class="hslide hs1 on" data-n="1">
+          <span class="hp p-kbtl a d1" role="img" aria-label="Foaming kitchen cleaner" {% if p1 != blank %}style="background-image: url('{{ p1.featured_image | image_url: width: 400 }}');"{% endif %}></span>
+          <div class="glass-2 ptag">
+            <span class="lbl">{{ p1_title }}</span>
+            <div class="val">
+              <strong>{{ p1_price }}</strong>
+              {%- if p1_compare != blank -%}<s>{{ p1_compare }}</s>{%- endif -%}
+            </div>
+            {%- if p1_discount != blank -%}<span class="cut">{{ p1_discount }}</span>{%- endif -%}
+          </div>
+        </div>
+
+        <!-- Slide 2 -->
+        {%- assign p2_1 = section.settings.product_2_1 -%}
+        {%- assign p2_2 = section.settings.product_2_2 -%}
+        {%- assign p2_title = section.settings.slide_2_label | default: 'Any 2 products' -%}
+        {%- assign p2_price = section.settings.slide_2_price | default: '₹349' -%}
+        {%- assign p2_compare = section.settings.slide_2_compare | default: '₹598' -%}
+        {%- assign p2_discount = section.settings.slide_2_discount | default: 'Save ₹249' -%}
+        {%- if p2_1 != blank and p2_2 != blank -%}
+          {%- assign combined_price = p2_1.price | plus: p2_2.price -%}
+          {%- assign p2_price = combined_price | times: 0.7 | round | money_without_trailing_zeros -%}
+          {%- assign p2_compare = combined_price | money_without_trailing_zeros -%}
+          {%- assign savings = combined_price | minus: combined_price | times: 0.7 | round | money_without_trailing_zeros -%}
+          {%- assign p2_discount = 'Save ' | append: savings -%}
+        {%- endif -%}
+
+        <div class="hslide hs2" data-n="2">
+          <span class="hp p-tbtl a d1" role="img" aria-label="Tap cleaner" {% if p2_1 != blank %}style="background-image: url('{{ p2_1.featured_image | image_url: width: 400 }}');"{% endif %}></span>
+          <span class="hp p-kbtl b d2" role="img" aria-label="Kitchen cleaner" {% if p2_2 != blank %}style="background-image: url('{{ p2_2.featured_image | image_url: width: 400 }}');"{% endif %}></span>
+          <div class="glass-2 ptag">
+            <span class="lbl">{{ p2_title }}</span>
+            <div class="val">
+              <strong>{{ p2_price }}</strong>
+              {%- if p2_compare != blank -%}<s>{{ p2_compare }}</s>{%- endif -%}
+            </div>
+            {%- if p2_discount != blank -%}<span class="cut">{{ p2_discount }}</span>{%- endif -%}
+          </div>
+        </div>
+
+        <!-- Slide 3 -->
+        {%- assign p3_1 = section.settings.product_3_1 -%}
+        {%- assign p3_2 = section.settings.product_3_2 -%}
+        {%- assign p3_3 = section.settings.product_3_3 -%}
+        {%- assign p3_title = section.settings.slide_3_label | default: 'Any 3 products' -%}
+        {%- assign p3_price = section.settings.slide_3_price | default: '₹499' -%}
+        {%- assign p3_compare = section.settings.slide_3_compare | default: '₹897' -%}
+        {%- assign p3_discount = section.settings.slide_3_discount | default: 'Save ₹398' -%}
+        {%- if p3_1 != blank and p3_2 != blank and p3_3 != blank -%}
+          {%- assign combined_price3 = p3_1.price | plus: p3_2.price | plus: p3_3.price -%}
+          {%- assign p3_price = combined_price3 | times: 0.55 | round | money_without_trailing_zeros -%}
+          {%- assign p3_compare = combined_price3 | money_without_trailing_zeros -%}
+          {%- assign savings3 = combined_price3 | minus: combined_price3 | times: 0.55 | round | money_without_trailing_zeros -%}
+          {%- assign p3_discount = 'Save ' | append: savings3 -%}
+        {%- endif -%}
+
+        <div class="hslide hs3" data-n="3">
+          <span class="hp p-tbtl a d1" role="img" aria-label="Tap cleaner" {% if p3_1 != blank %}style="background-image: url('{{ p3_1.featured_image | image_url: width: 400 }}');"{% endif %}></span>
+          <span class="hp p-mbtl b d2" role="img" aria-label="Metal cleaner" {% if p3_2 != blank %}style="background-image: url('{{ p3_2.featured_image | image_url: width: 400 }}');"{% endif %}></span>
+          <span class="hp p-kbtl c d3" role="img" aria-label="Kitchen cleaner" {% if p3_3 != blank %}style="background-image: url('{{ p3_3.featured_image | image_url: width: 400 }}');"{% endif %}></span>
+          <div class="glass-2 ptag">
+            <span class="lbl">{{ p3_title }}</span>
+            <div class="val">
+              <strong>{{ p3_price }}</strong>
+              {%- if p3_compare != blank -%}<s>{{ p3_compare }}</s>{%- endif -%}
+            </div>
+            {%- if p3_discount != blank -%}<span class="cut">{{ p3_discount }}</span>{%- endif -%}
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Stage Dots Controls -->
+      <div class="hdots" id="hdots">
+        <button type="button" class="on" aria-label="Show 1 product"></button>
+        <button type="button" class="" aria-label="Show 2 products"></button>
+        <button type="button" class="" aria-label="Show 3 products"></button>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Purelane Hero",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "html",
+      "id": "title_html",
+      "default": "Clean<br>That<br><span class=\"lime\">Lasts</span>",
+      "label": "Headline HTML"
+    },
+    {
+      "type": "text",
+      "id": "lede",
+      "default": "Homecare that works on the toughest grime, made from plants. Kind to your home, your family and the world outside it.",
+      "label": "Lede Paragraph"
+    },
+    {
+      "type": "text",
+      "id": "btn_primary_text",
+      "default": "Shop now",
+      "label": "Primary Button Text"
+    },
+    {
+      "type": "url",
+      "id": "btn_primary_link",
+      "label": "Primary Button Link"
+    },
+    {
+      "type": "text",
+      "id": "btn_secondary_text",
+      "default": "How it works",
+      "label": "Secondary Button Text"
+    },
+    {
+      "type": "url",
+      "id": "btn_secondary_link",
+      "label": "Secondary Button Link"
+    },
+    {
+      "type": "header",
+      "content": "Slide 1 Settings"
+    },
+    {
+      "type": "product",
+      "id": "product_1",
+      "label": "Slide 1 Product"
+    },
+    {
+      "type": "text",
+      "id": "slide_1_label",
+      "default": "Single bottle",
+      "label": "Slide 1 Title"
+    },
+    {
+      "type": "text",
+      "id": "slide_1_price",
+      "default": "₹200",
+      "label": "Slide 1 Price Override"
+    },
+    {
+      "type": "text",
+      "id": "slide_1_compare",
+      "default": "₹299",
+      "label": "Slide 1 Compare At Price"
+    },
+    {
+      "type": "text",
+      "id": "slide_1_discount",
+      "default": "33% off",
+      "label": "Slide 1 Discount Badge Text"
+    },
+    {
+      "type": "header",
+      "content": "Slide 2 Settings"
+    },
+    {
+      "type": "product",
+      "id": "product_2_1",
+      "label": "Slide 2 Product 1"
+    },
+    {
+      "type": "product",
+      "id": "product_2_2",
+      "label": "Slide 2 Product 2"
+    },
+    {
+      "type": "text",
+      "id": "slide_2_label",
+      "default": "Any 2 products",
+      "label": "Slide 2 Title"
+    },
+    {
+      "type": "text",
+      "id": "slide_2_price",
+      "default": "₹349",
+      "label": "Slide 2 Price Override"
+    },
+    {
+      "type": "text",
+      "id": "slide_2_compare",
+      "default": "₹598",
+      "label": "Slide 2 Compare At Price"
+    },
+    {
+      "type": "text",
+      "id": "slide_2_discount",
+      "default": "Save ₹249",
+      "label": "Slide 2 Discount Badge Text"
+    },
+    {
+      "type": "header",
+      "content": "Slide 3 Settings"
+    },
+    {
+      "type": "product",
+      "id": "product_3_1",
+      "label": "Slide 3 Product 1"
+    },
+    {
+      "type": "product",
+      "id": "product_3_2",
+      "label": "Slide 3 Product 2"
+    },
+    {
+      "type": "product",
+      "id": "product_3_3",
+      "label": "Slide 3 Product 3"
+    },
+    {
+      "type": "text",
+      "id": "slide_3_label",
+      "default": "Any 3 products",
+      "label": "Slide 3 Title"
+    },
+    {
+      "type": "text",
+      "id": "slide_3_price",
+      "default": "₹499",
+      "label": "Slide 3 Price Override"
+    },
+    {
+      "type": "text",
+      "id": "slide_3_compare",
+      "default": "₹897",
+      "label": "Slide 3 Compare At Price"
+    },
+    {
+      "type": "text",
+      "id": "slide_3_discount",
+      "default": "Save ₹398",
+      "label": "Slide 3 Discount Badge Text"
+    },
+    {
+      "type": "header",
+      "content": "Section Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "default": 36,
+      "label": "Padding Top"
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "default": 36,
+      "label": "Padding Bottom"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "promise_badge",
+      "name": "Promise Badge",
+      "settings": [
+        {
+          "type": "text",
+          "id": "badge_text",
+          "default": "Eco-friendly badge",
+          "label": "Badge Text"
+        },
+        {
+          "type": "text",
+          "id": "badge_mobile_text",
+          "label": "Badge Mobile Text (Shortened)"
+        },
+        {
+          "type": "select",
+          "id": "badge_icon",
+          "options": [
+            { "value": "leaf", "label": "Leaf" },
+            { "value": "shield", "label": "Shield" },
+            { "value": "ban", "label": "Ban Circle" }
+          ],
+          "default": "leaf",
+          "label": "Icon Type"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Purelane Hero",
+      "blocks": [
+        {
+          "type": "promise_badge",
+          "settings": {
+            "badge_text": "Plant powered",
+            "badge_icon": "leaf"
+          }
+        },
+        {
+          "type": "promise_badge",
+          "settings": {
+            "badge_text": "Safe for kids & pets",
+            "badge_mobile_text": "Kids & pet safe",
+            "badge_icon": "shield"
+          }
+        },
+        {
+          "type": "promise_badge",
+          "settings": {
+            "badge_text": "Zero harsh chemicals",
+            "badge_mobile_text": "Zero harsh chem",
+            "badge_icon": "ban"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

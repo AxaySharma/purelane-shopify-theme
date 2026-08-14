@@ -1,12 +1,19 @@
-# OS generated files #
-######################
+# Shopify CLI & Local Dev
+.shopify/
+*.log
+
+# Node dependencies
+node_modules/
+package-lock.json
+
+# OS files
 .DS_Store
-.DS_Store?
-._*
-.Spotlight-V100
-.Trashes
-ehthumbs.db
 Thumbs.db
-.shopify
-node_modules
-*.zip
+
+# Reference prototype (kept local only)
+reference/
+
+# Visual verification outputs
+tests/visual-diff/
+*.png
+

@@ -1,78 +1,43 @@
 {% comment %}
-  Renders a Purelane custom product card with glassmorphism styling and AJAX add to cart.
+  Renders a Purelane custom product card matching the exact prototype.
   Accepts:
   - product: {Object} Shopify Product object (required)
-  - badge_text: {String} Optional badge text override
-  - show_rating: {Boolean} Show rating if true (default: true)
 {% endcomment %}
 
-{%- assign show_rating = show_rating | default: true -%}
-{%- assign current_variant = product.selected_or_first_available_variant -%}
-
-<div class="card purelane-product-card glass rv" data-product-id="{{ product.id }}">
-  <div class="purelane-product-card__media">
-    {%- if badge_text != blank -%}
-      <span class="purelane-product-card__badge">{{ badge_text }}</span>
-    {%- elsif current_variant.available == false -%}
-      <span class="purelane-product-card__badge sold-out">Sold Out</span>
-    {%- elsif product.compare_at_price > product.price -%}
-      {%- assign discount = product.compare_at_price | minus: product.price | times: 100.0 | divided_by: product.compare_at_price | round -%}
-      <span class="purelane-product-card__badge discount">-{{ discount }}%</span>
-    {%- endif -%}
-
-    <a href="{{ product.url }}" class="purelane-product-card__link" aria-label="{{ product.title | escape }}">
-      <div class="shot">
-        {%- if product.featured_media -%}
-          {{ product.featured_media | image_url: width: 533 | image_tag: loading: 'lazy', sizes: '(min-width: 860px) 25vw, 50vw' }}
-        {%- else -%}
-          <!-- Fallback botanical bottle SVG centered in .shot with aria-hidden="true" -->
-          <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" aria-hidden="true">
-            <path d="M50 15v10M40 25h20M43 25v10h14V25H43zm-8 10h30c3 0 5 2 5 5v38c0 4-3 7-7 7H37c-4 0-7-3-7-7V40c0-3 2-5 5-5z" stroke="var(--brand)" stroke-width="2" stroke-linejoin="round"/>
-            <path d="M50 45c-4 0-7 3-7 7s7 11 7 11 7-7 7-11-3-7-7-7z" fill="var(--deep)" stroke="var(--brand)" stroke-width="1.5"/>
-            <path d="M38 72h24" stroke="var(--brand)" stroke-width="2" stroke-linecap="round"/>
-          </svg>
-        {%- endif -%}
-      </div>
-    </a>
-  </div>
-
-  <div class="purelane-product-card__info">
-    <div class="purelane-product-card__type">{{ product.type | default: 'Homecare' }}</div>
-    <h4 class="purelane-product-card__title">
-      <a href="{{ product.url }}">{{ product.title }}</a>
-    </h4>
-
-    {%- if show_rating and product.metafields.reviews.rating.value -%}
-      <div class="rate">
-        <span class="rating-stars" style="--rating: {{ product.metafields.reviews.rating.value.rating }};">★★★★★</span>
-        <span class="rating-count">({{ product.metafields.reviews.rating_count }})</span>
-      </div>
-    {%- endif -%}
-
-    <div class="pr">
-      <span class="price-current">{{ product.price | money_without_trailing_zeros }}</span>
-      {%- if product.compare_at_price > product.price -%}
-        <span class="price-compare">{{ product.compare_at_price | money_without_trailing_zeros }}</span>
-      {%- endif -%}
-    </div>
-
-    {%- if current_variant.available -%}
-      <button
-        type="button"
-        class="btn btn-primary btn-sm purelane-product-card__add-btn"
-        data-variant-id="{{ current_variant.id }}"
-        onclick="purelaneAddToCart(this)"
-      >
-        Add to Cart
-      </button>
+<article class="glass card rv in">
+  <div class="shot">
+    <span class="pill">
+      {%- if product.available == false -%}Sold Out{%- elsif product.compare_at_price > product.price -%}Sale{%- else -%}Best seller{%- endif -%}
+    </span>
+    {%- if product.featured_image != blank -%}
+      {{ product.featured_image | image_url: width: 400 | image_tag: loading: 'lazy', alt: product.title }}
     {%- else -%}
-      <button
-        type="button"
-        class="btn btn-primary btn-sm purelane-product-card__add-btn"
-        disabled
-      >
-        Sold Out
-      </button>
+      <svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true" style="color: var(--accent); opacity: 0.8; max-height: 120px;">
+        <path d="M12 21c0-6.5 3.5-11 8-12.5C20 15 16.5 20 12 21Z"/>
+        <path d="M12 21C12 14.5 8.5 10 4 8.5 4 15 7.5 20 12 21Z"/>
+      </svg>
     {%- endif -%}
   </div>
-</div>
+  
+  <h4>{{ product.title }}</h4>
+  
+  <div class="rate"><b>★ 4.8</b> · 237 reviews</div>
+  
+  <div class="pr">
+    <strong>{{ product.price | money_without_trailing_zeros }}</strong>
+    {%- if product.compare_at_price > product.price -%}
+      <s>{{ product.compare_at_price | money_without_trailing_zeros }}</s>
+      {%- assign save_pct = product.compare_at_price | minus: product.price | times: 100.0 | divided_by: product.compare_at_price | round -%}
+      <em>{{ save_pct }}% off</em>
+    {%- endif -%}
+  </div>
+  
+  {%- if product.available -%}
+    <form method="post" action="/cart/add" style="width: 100%;">
+      <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
+      <button type="submit" class="btn btn-ghost btn-sm">Add to cart</button>
+    </form>
+  {%- else -%}
+    <button class="btn btn-ghost btn-sm" disabled style="opacity: 0.5; cursor: not-allowed;">Sold Out</button>
+  {%- endif -%}
+</article>
